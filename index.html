@@ -2,10 +2,251 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Raj's Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+
+<!-- Navigation Header -->
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <h2>RajPortfolio</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+</header>
+
+<!-- Home Section -->
+<section id="home" class="hero">
+    <div class="hero-content">
+        <h1>Hello, I'm Raj Suryawanshi</h1>
+        <p class="tagline">Web Developer | Android Developer </p>
+        <div class="button-group">
+            <button class="btn btn-primary" onclick="scrollToContact()">Hire Me</button>
+            <button class="btn btn-secondary" onclick="scrollToSection('about')">Learn More</button>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="about">
+    <div class="container">
+        <h2>About Me</h2>
+        <p>
+            I am a passionate and dedicated developer with extensive experience in building modern web applications 
+            and Android mobile apps. I specialize in creating responsive, user-friendly interfaces with clean, 
+            maintainable code. My expertise spans HTML, CSS, JavaScript, Java, and Firebase.
+        </p>
+        <div class="about-highlights">
+            <div class="highlight-item">
+                <h3>Frontend Development</h3>
+                <p>Creating beautiful and responsive web interfaces</p>
+            </div>
+            <div class="highlight-item">
+                <h3>Mobile Apps</h3>
+                <p>Building Android applications with Firebase integration</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="skills">
+    <div class="container">
+        <h2>My Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-icon">🌐</div>
+                <h3>HTML</h3>
+                <p>Semantic markup & structure</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">🎨</div>
+                <h3>CSS</h3>
+                <p>Responsive & modern design</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">⚡</div>
+                <h3>JavaScript</h3>
+                <p>Interactive web applications</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">☕</div>
+                <h3>Java</h3>
+                <p>Android app development</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">🔥</div>
+                <h3>Firebase</h3>
+                <p>Real-time databases</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">📱</div>
+                <h3>Python</h3>
+                <p>Backend Technology</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="projects">
+    <div class="container">
+        <h2>Featured Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>Complaint Management System</h3>
+                </div>
+                <div class="project-body">
+                    <p>A comprehensive Android application for managing complaints with real-time Firebase database integration.</p>
+                    <div class="tech-tags">
+                        <span class="tag">Android</span>
+                        <span class="tag">Firebase</span>
+                        <span class="tag">Java</span>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <button class="btn btn-small">View Details</button>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>Weather Smart Home App</h3>
+                </div>
+                <div class="project-body">
+                    <p>Intelligent smart home control application with weather integration and XML-based configuration.</p>
+                    <div class="tech-tags">
+                        <span class="tag">Java</span>
+                        <span class="tag">XML</span>
+                        <span class="tag">Android</span>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <button class="btn btn-small">View Details</button>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>Personal Portfolio Website</h3>
+                </div>
+                <div class="project-body">
+                    <p>Modern, responsive portfolio website showcasing skills and projects with smooth interactions.</p>
+                    <div class="tech-tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <button class="btn btn-small">View Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact">
+    <div class="container">
+        <h2>Get In Touch</h2>
+        <p class="section-subtitle">Have a project in mind? Let's talk!</p>
+        
+        <div class="contact-wrapper">
+            <form id="contactForm" class="contact-form">
+                <div class="form-group">
+                    <input 
+                        type="text" 
+                        id="name" 
+                        placeholder="Your Full Name" 
+                        required
+                        class="form-input">
+                    <span class="error" id="nameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <input 
+                        type="email" 
+                        id="email" 
+                        placeholder="Your Email Address" 
+                        required
+                        class="form-input">
+                    <span class="error" id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <textarea 
+                        id="message" 
+                        placeholder="Your Message (Min 10 characters)" 
+                        required
+                        rows="5"
+                        class="form-input"></textarea>
+                    <span class="error" id="messageError"></span>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                    <button type="reset" class="btn btn-secondary">Clear Form</button>
+                </div>
+
+                <div id="successMessage" class="success-message"></div>
+            </form>
+
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <div class="info-item">
+                    <span class="info-icon">📧</span>
+                    <div>
+                        <p>Email</p>
+                        <a href="mailto:raj@example.com">raj.surya@example.com</a>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">📱</span>
+                    <div>
+                        <p>Phone</p>
+                        <a href="tel:+91">+91 XXXXXXXXXX</a>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">📍</span>
+                    <div>
+                        <p>Location</p>
+                        <p>India</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <p>&copy; 2026 Raj Surya. All Rights Reserved.</p>
+        <div class="social-links">
+            <a href="#" title="GitHub">GitHub</a>
+            <a href="#" title="LinkedIn">LinkedIn</a>
+            <a href="#" title="Twitter">Twitter</a>
+        </div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
