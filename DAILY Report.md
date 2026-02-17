@@ -24,6 +24,9 @@ Used semantic HTML5 elements
 Required Upgrades:
 Project Setup & Basic Structure Completed
 
+GitHub Frontend Link: https://github.com/rajsuryawanshi2005/Spcl-Task-1-personal-portfolio
+
+
 Day 02 Progress Report
 
 Date: 17/02/26
@@ -58,4 +61,4 @@ Mobile responsiveness verified
 All UI issues fixed
 
 
-GitHub Frontend Link: 
+GitHub Frontend Link: https://github.com/rajsuryawanshi2005/Spcl-Task-1-personal-portfolio
