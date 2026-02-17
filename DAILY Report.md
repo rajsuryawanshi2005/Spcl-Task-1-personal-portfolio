@@ -69,4 +69,4 @@ Required Upgrades:
 - Tech tags for projects
 - Contact information sidebar
 
-GitHub Frontend Link: rajsuryawanshi2005/Spcl-Task-1-personal-portfolio
+GitHub Frontend Link: https://github.com/rajsuryawanshi2005/Spcl-Task-1-personal-portfolio
