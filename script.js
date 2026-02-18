@@ -10,92 +10,12 @@ function scrollToContact() {
     scrollToSection('contact');
 }
 
-// ====== Mobile Menu Toggle ======
-document.addEventListener('DOMContentLoaded', function() {
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
-
-    if (hamburger) {
-        hamburger.addEventListener('click', function() {
-            navLinks.classList.toggle('active');
-        });
-    }
-
-    // Close mobile menu when link is clicked
-    const navItems = document.querySelectorAll('.nav-links a');
-    navItems.forEach(item => {
-        item.addEventListener('click', function() {
-            navLinks.classList.remove('active');
-        });
-    });
-});
-
-// ====== Form Validation and Submission ======
-const contactForm = document.getElementById('contactForm');
-
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        // Get form values
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const message = document.getElementById('message').value.trim();
-
-        // Clear previous error messages
-        clearErrors();
-
-        // Validation variables
-        let isValid = true;
-        const errors = {
-            nameError: '',
-            emailError: '',
-            messageError: ''
-        };
-
-        // Name validation
-        if (name.length === 0) {
-            errors.nameError = 'Name is required';
-            isValid = false;
-        } else if (name.length < 3) {
-            errors.nameError = 'Name must be at least 3 characters long';
-            isValid = false;
-        } else if (!/^[a-zA-Z\s]+$/.test(name)) {
-            errors.nameError = 'Name should only contain letters and spaces';
-            isValid = false;
-        }
-
-        // Email validation
-        if (email.length === 0) {
-            errors.emailError = 'Email is required';
-            isValid = false;
-        } else if (!validateEmail(email)) {
-            errors.emailError = 'Please enter a valid email address';
-            isValid = false;
-        }
-
-        // Message validation
-        if (message.length === 0) {
-            errors.messageError = 'Message is required';
-            isValid = false;
-        } else if (message.length < 10) {
-            errors.messageError = 'Message must be at least 10 characters long';
-            isValid = false;
-        }
-
-        // Display errors or submit
-        if (!isValid) {
-            displayErrors(errors);
-        } else {
-            // Form is valid - show success message
-            showSuccessMessage();
-            contactForm.reset();
-            clearErrors();
-        }
-    });
+// ====== Helper Functions ======
+function validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
 }
 
-// ====== Display Error Messages ======
 function displayErrors(errors) {
     if (errors.nameError) {
         const nameErrorEl = document.getElementById('nameError');
@@ -122,7 +42,6 @@ function displayErrors(errors) {
     }
 }
 
-// ====== Clear Error Messages ======
 function clearErrors() {
     const errorElements = document.querySelectorAll('.error');
     errorElements.forEach(el => {
@@ -131,38 +50,56 @@ function clearErrors() {
     });
 }
 
-// ====== Show Success Message ======
 function showSuccessMessage() {
     const successMessage = document.getElementById('successMessage');
     if (successMessage) {
-        successMessage.textContent = '✓ Message sent successfully! I\'ll get back to you soon.';
+        successMessage.innerHTML = '✓ Message sent successfully! I\'ll get back to you soon.';
         successMessage.classList.add('show');
 
         // Hide success message after 5 seconds
-        setTimeout(function() {
+        setTimeout(function () {
             successMessage.classList.remove('show');
         }, 5000);
     }
 }
 
-// ====== Scroll Animation for Elements ======
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
+// ====== Main Initialization ======
+document.addEventListener('DOMContentLoaded', function () {
 
-const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-            observer.unobserve(entry.target);
-        }
+    // --- Mobile Menu Toggle ---
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    if (hamburger) {
+        hamburger.addEventListener('click', function () {
+            navLinks.classList.toggle('active');
+        });
+    }
+
+    // Close mobile menu when link is clicked
+    const navItems = document.querySelectorAll('.nav-links a');
+    navItems.forEach(item => {
+        item.addEventListener('click', function () {
+            navLinks.classList.remove('active');
+        });
     });
-}, observerOptions);
 
-// Observe skill cards and project cards on page load
-document.addEventListener('DOMContentLoaded', function() {
+    // --- Animation Observation ---
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
     const skillCards = document.querySelectorAll('.skill-card');
     const projectCards = document.querySelectorAll('.project-card');
 
@@ -179,10 +116,124 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(card);
     });
+
+    // --- Form Handling with EmailJS ---
+
+    // Initialize EmailJS
+    try {
+        emailjs.init("GETkapgDAHmfcRxDL");
+    } catch (e) {
+        console.error("EmailJS Init Failed:", e);
+    }
+
+    const contactForm = document.getElementById('contactForm');
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const messageInput = document.getElementById("message");
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Clear previous error messages
+            clearErrors();
+
+            // Get form values
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const message = messageInput.value.trim();
+
+            // Validation variables
+            let isValid = true;
+            const errors = {
+                nameError: '',
+                emailError: '',
+                messageError: ''
+            };
+
+            // Name validation
+            if (name.length === 0) {
+                errors.nameError = 'Name is required';
+                isValid = false;
+            } else if (name.length < 3) {
+                errors.nameError = 'Name must be at least 3 characters long';
+                isValid = false;
+            } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+                errors.nameError = 'Name should only contain letters and spaces';
+                isValid = false;
+            }
+
+            // Email validation
+            if (email.length === 0) {
+                errors.emailError = 'Email is required';
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                errors.emailError = 'Please enter a valid email address';
+                isValid = false;
+            }
+
+            // Message validation
+            if (message.length === 0) {
+                errors.messageError = 'Message is required';
+                isValid = false;
+            } else if (message.length < 10) {
+                errors.messageError = 'Message must be at least 10 characters long';
+                isValid = false;
+            }
+
+            // Display errors or submit
+            if (!isValid) {
+                displayErrors(errors);
+            } else {
+                // Form is valid - send email
+                const templateParams = {
+                    from_name: name,
+                    from_email: email,
+                    email: email,    // Adding 'email' just in case the template uses "email" for recipient
+                    message: message,
+                    to_name: "Raj Suryawanshi",
+                    reply_to: email,
+                    to_email: "rajsuryawanshi897@gmail.com"
+                };
+
+                console.log("Sending EmailJS params:", templateParams);
+
+                const submitBtn = contactForm.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.textContent;
+                submitBtn.textContent = 'Sending...';
+                submitBtn.disabled = true;
+
+                emailjs.send(
+                    "service_xgne04r",
+                    "template_wfh89s4",
+                    templateParams
+                )
+                    .then(function () {
+                        showSuccessMessage();
+                        contactForm.reset();
+                    })
+                    .catch(function (error) {
+                        console.error("EmailJS Error:", error);
+                        // Show the specific error text to help debugging
+                        let errorMsg = "Failed to send message.";
+                        if (error && error.text) {
+                            errorMsg += " Error: " + error.text;
+                        } else if (typeof error === 'string') {
+                            errorMsg += " " + error;
+                        }
+                        alert(errorMsg);
+                    })
+                    .finally(function () {
+                        submitBtn.textContent = originalBtnText;
+                        submitBtn.disabled = false;
+                    });
+            }
+        });
+    }
 });
 
 // ====== Active Navigation Link ======
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', function () {
     let current = '';
     const sections = document.querySelectorAll('section');
 
@@ -202,127 +253,3 @@ window.addEventListener('scroll', function() {
         }
     });
 });
-
-// ====== Real-time Form Validation ======
-// ===== EmailJS Initialization =====
-(function () {
-    emailjs.init("GETkapgDAHmfcRxDL");
-})();
-
-// ===== Get Input Fields =====
-const nameInput = document.getElementById('name');
-const emailInput = document.getElementById('email');
-const messageInput = document.getElementById('message');
-const form = document.getElementById("contactForm");
-
-// ===== Blur Validation =====
-if (nameInput) {
-    nameInput.addEventListener('blur', function () {
-        validateField('name');
-    });
-}
-
-if (emailInput) {
-    emailInput.addEventListener('blur', function () {
-        validateField('email');
-    });
-}
-
-if (messageInput) {
-    messageInput.addEventListener('blur', function () {
-        validateField('message');
-    });
-}
-
-// ===== Email Validation Function =====
-function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-// ===== Validate Single Field =====
-function validateField(fieldName) {
-    let isValid = true;
-    const errorElement = document.getElementById(fieldName + 'Error');
-
-    if (fieldName === 'name') {
-        const name = nameInput.value.trim();
-        if (name.length === 0) {
-            errorElement.textContent = 'Name is required';
-            isValid = false;
-        } else if (name.length < 3) {
-            errorElement.textContent = 'Name must be at least 3 characters';
-            isValid = false;
-        }
-    }
-
-    else if (fieldName === 'email') {
-        const email = emailInput.value.trim();
-        if (email.length === 0) {
-            errorElement.textContent = 'Email is required';
-            isValid = false;
-        } else if (!validateEmail(email)) {
-            errorElement.textContent = 'Invalid email address';
-            isValid = false;
-        }
-    }
-
-    else if (fieldName === 'message') {
-        const message = messageInput.value.trim();
-        if (message.length === 0) {
-            errorElement.textContent = 'Message is required';
-            isValid = false;
-        } else if (message.length < 10) {
-            errorElement.textContent = 'Message must be at least 10 characters';
-            isValid = false;
-        }
-    }
-
-    if (isValid) {
-        errorElement.classList.remove('show');
-        errorElement.textContent = '';
-    } else {
-        errorElement.classList.add('show');
-    }
-
-    return isValid;
-}
-
-// ===== Form Submit =====
-if (form) {
-    form.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const isNameValid = validateField('name');
-        const isEmailValid = validateField('email');
-        const isMessageValid = validateField('message');
-
-        if (isNameValid && isEmailValid && isMessageValid) {
-
-            const templateParams = {
-                user_name: nameInput.value.trim(),
-                user_email: emailInput.value.trim(),
-                message: messageInput.value.trim(),
-                to_email: "rajsuryawanshi897@gmail.com"
-            };
-
-            console.log("Sending email with params:", templateParams);
-
-            emailjs.send(
-                "service_xgne04r",
-                "template_wfh89s4",
-                templateParams
-            )
-            .then(function (response) {
-                console.log("Email sent successfully!", response);
-                showSuccessMessage();
-                form.reset();
-                clearErrors();
-            })
-            .catch(function (error) {
-                console.error("Failed to send message:", error);
-                alert("Failed to send message. Error: " + error.text);
-            });
-        }
-    });
-}
