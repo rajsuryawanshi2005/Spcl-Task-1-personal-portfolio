@@ -141,6 +141,21 @@ header {
     font-weight: 300;
 }
 
+/* ====== Profile Picture ====== */
+.profile-picture-container {
+    margin-bottom: 2.5rem;
+}
+
+.profile-picture {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    object-fit: cover;
+    animation: fadeInUp 0.8s ease;
+}
+
 /* ====== Button Group ====== */
 .button-group {
     display: flex;
@@ -580,6 +595,17 @@ footer {
     }
 }
 
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* ====== Responsive Design ====== */
 @media (max-width: 768px) {
     .nav-links {
@@ -609,6 +635,11 @@ footer {
 
     .tagline {
         font-size: 1.1rem;
+    }
+
+    .profile-picture {
+        width: 150px;
+        height: 150px;
     }
 
     .button-group {
